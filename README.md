@@ -22,7 +22,7 @@ Then call `setup`:
 require('flote').setup{}
 ```
 
-and you're all done!
+and you're all done, no configuration needed!
 
 ## Usage
 
@@ -52,4 +52,4 @@ when no longer visible. This includes discarding unsaved changes without warning
 
 Theme used in screenshot is [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
 
-Check out my other plugin [easyread.nvim](https://github.com/JellyApple102/easyread.nvim)!
+Check out my other plugin [easyread.nvim](https://github.com/JellyApple102/easyread.nvim)
