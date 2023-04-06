@@ -16,13 +16,24 @@ use {
 }
 ```
 
-Then call `setup`:
+## Configuration
+
+Call `setup`:
 
 ```lua
-require('flote').setup{}
+-- defaults
+require('flote').setup{
+    q_to_quit = true,
+    window_style = 'minimal',
+    window_border = 'solid'
+}
 ```
 
-and you're all done, no configuration needed!
+| Option | Default | Description |
+| ------ | ------- | ----------- |
+| q_to_quit | `true` | Remaps `q` in normal mode to `<cmd>wq<CR>`. |
+| window_style | `minimal` | See the `config` section of `:h nvim_open_win()`. Currently either `minimal` or empty string `''`. |
+| window_border | `solid` | See the `config` section of `:h nvim_open_win()`. Popular options: `single`, `double`, `solid`. |
 
 ## Usage
 
@@ -52,6 +63,12 @@ when no longer visible. This includes discarding unsaved changes without warning
 
 This plugin will not work in Windows environments without a `touch` command.
 Files are created by calling by calling `os.execute()` with the `touch` command.
+
+## Coming Soon
+
+- Prettier popup window. Things like note filename, press 'q' to quit, title, etc.
+- Slightly more robust window management. 'q' to quit works already, but as it stands
+you can open multiple note windows.
 
 ## Extras
 
