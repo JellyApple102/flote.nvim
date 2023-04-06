@@ -1,5 +1,11 @@
 local M = {}
 
+M.config = {
+    q_to_quit = true,
+    window_style = 'minimal',
+    window_border = 'solid'
+}
+
 local check_cache_dir = function()
     local nvim_cache_dir = vim.fs.normalize(vim.fn.stdpath('cache'))
     local flote_cache_dir = vim.fs.normalize(nvim_cache_dir .. '/flote')
@@ -34,15 +40,20 @@ local open_float = function(file)
         col = (ui.width - width) / 2,
         row = (ui.height - height) / 2,
         focusable = false,
-        style = 'minimal',
-        border = 'solid'
+        style = M.config.window_style,
+        border = M.config.window_border
     })
 
     vim.cmd('edit ' .. file)
     vim.api.nvim_buf_set_option(note_buf, 'bufhidden', 'wipe')
+    if M.config.q_to_quit then
+        vim.api.nvim_buf_set_keymap(note_buf, 'n', 'q', '<cmd>wq<CR>', { noremap = true, silent = false })
+    end
 end
 
-M.setup = function()
+M.setup = function(config)
+    M.config = vim.tbl_deep_extend('force', M.config, config or {})
+
     M.flote_cache_dir = check_cache_dir()
 
     vim.api.nvim_create_user_command('Flote', function(opts)
