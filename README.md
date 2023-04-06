@@ -1,6 +1,6 @@
 # flote.nvim
 
-Easy, minimal, per-project and global markdown notes, in under 70 LOC.
+Easy, minimal, per-project and global markdown notes.
 
 ![screenshot](https://user-images.githubusercontent.com/48893929/229207438-80b1d354-defa-45dd-a8dd-2c06e86911f4.png)
 
