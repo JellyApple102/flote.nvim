@@ -31,7 +31,7 @@ require('flote').setup{
 
 | Option | Default | Description |
 | ------ | ------- | ----------- |
-| q_to_quit | `true` | Remaps `q` in normal mode to `<cmd>wq<CR>`. |
+| q_to_quit | `true` | Remaps `q` in normal mode to `<cmd>wq<CR>` for the note buffer. |
 | window_style | `minimal` | See the `config` section of `:h nvim_open_win()`. Currently either `minimal` or empty string `''`. |
 | window_border | `solid` | See the `config` section of `:h nvim_open_win()`. Popular options: `single`, `double`, `solid`. |
 
