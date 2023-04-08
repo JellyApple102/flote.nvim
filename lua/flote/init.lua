@@ -3,7 +3,8 @@ local M = {}
 M.config = {
     q_to_quit = true,
     window_style = 'minimal',
-    window_border = 'solid'
+    window_border = 'solid',
+    window_title = true
 }
 
 local check_cache_dir = function()
@@ -26,14 +27,14 @@ local check_note_file = function(file)
     return note_file_path
 end
 
-local open_float = function(file)
+local open_float = function(file_path, file_name)
     local ui = vim.api.nvim_list_uis()[1]
     local width = math.floor((ui.width * 0.5) + 0.5)
     local height = math.floor((ui.height * 0.5) + 0.5)
 
     local note_buf = vim.api.nvim_create_buf(false, true)
 
-    vim.api.nvim_open_win(note_buf, true, {
+    local win_opts = {
         relative = 'editor',
         width = width,
         height = height,
@@ -42,9 +43,16 @@ local open_float = function(file)
         focusable = false,
         style = M.config.window_style,
         border = M.config.window_border
-    })
+    }
 
-    vim.cmd('edit ' .. file)
+    if M.config.window_title then
+        win_opts.title = file_name .. " - press 'q' to quit"
+        win_opts.title_pos = "left"
+    end
+
+    vim.api.nvim_open_win(note_buf, true, win_opts)
+
+    vim.cmd('edit ' .. file_path)
     vim.api.nvim_buf_set_option(note_buf, 'bufhidden', 'wipe')
     if M.config.q_to_quit then
         vim.api.nvim_buf_set_keymap(note_buf, 'n', 'q', '<cmd>wq<CR>', { noremap = true, silent = false })
@@ -58,8 +66,8 @@ M.setup = function(config)
 
     vim.api.nvim_create_user_command('Flote', function(opts)
         if opts.fargs[1] == 'global' then
-            local note_file = check_note_file('flote-global.md')
-            open_float(note_file)
+            local note_file_path = check_note_file('flote-global.md')
+            open_float(note_file_path, "flote-global.md")
         elseif opts.fargs[1] == 'manage' then
             open_float(M.flote_cache_dir)
         else
@@ -67,8 +75,8 @@ M.setup = function(config)
             local base_name = vim.fs.basename(cwd)
             local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
             local file_name = parent_base_name .. '_' .. base_name .. '.md'
-            local note_file = check_note_file(file_name)
-            open_float(note_file)
+            local note_file_path = check_note_file(file_name)
+            open_float(note_file_path, file_name)
         end
     end, { nargs='?', complete = function(ArgLead, CmdLine, CursorPos)
             return { 'global', 'manage' }

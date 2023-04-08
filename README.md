@@ -25,7 +25,8 @@ Call `setup`:
 require('flote').setup{
     q_to_quit = true,
     window_style = 'minimal',
-    window_border = 'solid'
+    window_border = 'solid',
+    window_title = true
 }
 ```
 
@@ -34,6 +35,7 @@ require('flote').setup{
 | q_to_quit | `true` | Remaps `q` in normal mode to `<cmd>wq<CR>` for the note buffer. |
 | window_style | `minimal` | See the `config` section of `:h nvim_open_win()`. Currently either `minimal` or empty string `''`. |
 | window_border | `solid` | See the `config` section of `:h nvim_open_win()`. Popular options: `single`, `double`, `solid`. |
+| window_title | `true` | Show the note file name in the title of the flote window. Requires Neovim >= 0.9.0 |
 
 ## Usage
 
