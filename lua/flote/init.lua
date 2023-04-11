@@ -46,8 +46,11 @@ local open_float = function(file_path, file_name)
     }
 
     if M.config.window_title then
-        win_opts.title = file_name .. " - press 'q' to quit"
-        win_opts.title_pos = "left"
+        win_opts.title = file_name
+        if M.config.q_to_quit then
+            win_opts.title = win_opts.title .. " - press 'q' to quit"
+            win_opts.title_pos = "left"
+        end
     end
 
     vim.api.nvim_open_win(note_buf, true, win_opts)
