@@ -4,6 +4,11 @@ Easy, minimal, per-project and global markdown notes.
 
 ![screenshot](https://user-images.githubusercontent.com/48893929/229207438-80b1d354-defa-45dd-a8dd-2c06e86911f4.png)
 
+## Requirements
+
+Neovim version >= 0.9.0 required for the window title only.
+Older versions can disable it, check the [configuration](#configuration) section.
+
 ## Installation
 
 Install using your preferred package manager.
