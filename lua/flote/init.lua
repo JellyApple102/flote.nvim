@@ -4,12 +4,24 @@ M.config = {
     q_to_quit = true,
     window_style = 'minimal',
     window_border = 'solid',
-    window_title = true
+    window_title = true,
+    notes_dir = vim.fn.stdpath('cache') .. '/flote',
+    files = {
+        global = 'flote-global.md',
+	cwd = function ()
+	   return vim.fn.getcwd()
+	end,
+	file_name = function (cwd)
+	    local base_name = vim.fs.basename(cwd)
+            local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
+            return parent_base_name .. '_' .. base_name .. '.md'
+	end
+    }
+
 }
 
-local check_cache_dir = function()
-    local nvim_cache_dir = vim.fs.normalize(vim.fn.stdpath('cache'))
-    local flote_cache_dir = vim.fs.normalize(nvim_cache_dir .. '/flote')
+local check_cache_dir = function(dir)
+    local flote_cache_dir = vim.fs.normalize(dir)
 
     if vim.fn.isdirectory(flote_cache_dir) == 0 then
         os.execute('mkdir ' .. flote_cache_dir)
@@ -65,19 +77,17 @@ end
 M.setup = function(config)
     M.config = vim.tbl_deep_extend('force', M.config, config or {})
 
-    M.flote_cache_dir = check_cache_dir()
+    M.flote_cache_dir = check_cache_dir(M.config.notes_dir)
 
     vim.api.nvim_create_user_command('Flote', function(opts)
         if opts.fargs[1] == 'global' then
-            local note_file_path = check_note_file('flote-global.md')
-            open_float(note_file_path, "flote-global.md")
+            local note_file_path = check_note_file(M.config.files.global)
+            open_float(note_file_path, M.config.files.global)
         elseif opts.fargs[1] == 'manage' then
             open_float(M.flote_cache_dir)
         else
-            local cwd = vim.fs.normalize(vim.fn.getcwd())
-            local base_name = vim.fs.basename(cwd)
-            local parent_base_name = vim.fs.basename(vim.fs.dirname(cwd))
-            local file_name = parent_base_name .. '_' .. base_name .. '.md'
+            local cwd = vim.fs.normalize(M.config.files.cwd())
+            local file_name = M.config.files.file_name(cwd)
             local note_file_path = check_note_file(file_name)
             open_float(note_file_path, file_name)
         end
