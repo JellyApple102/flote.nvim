@@ -83,7 +83,13 @@ local open_float = function(file_path, file_name)
 	vim.cmd('edit ' .. file_path)
 	vim.api.nvim_buf_set_option(note_buf, 'bufhidden', 'wipe')
 	if M.config.q_to_quit then
-		vim.api.nvim_buf_set_keymap(note_buf, 'n', 'q', '<cmd>wq<CR>', { noremap = true, silent = false })
+		local buf = vim.api.nvim_win_get_buf(0)
+
+		local cmd = "<cmd>wq<CR>"
+		if vim.bo[buf].readonly then
+			cmd = "<cmd>q!<CR>"
+		end
+		vim.api.nvim_buf_set_keymap(note_buf, "n", "q", cmd, { noremap = true, silent = false })
 	end
 end
 
