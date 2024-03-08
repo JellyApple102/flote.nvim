@@ -102,7 +102,7 @@ M.setup = function(config)
 		end
 	end, {
 		nargs = '?',
-		complete = function(ArgLead, CmdLine, CursorPos)
+		complete = function(_, _, _)
 			return { 'global', 'manage' }
 		end
 	})
